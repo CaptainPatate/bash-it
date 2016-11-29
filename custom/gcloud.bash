@@ -5,12 +5,16 @@ _gcloud-list-config-complete () {
 }
 
 gcloud-project () {
-    gcloud config configurations activate $1
+    if [ $# -eq 0 ]; then
+	gcloud config list --format='value(name)'
+    else
+	gcloud config configurations activate "$1"
+    fi
 }
 
 gcloud-project-exec () {
     local current_project=$(gcloud config configurations list --format='value(name)' --filter='is_active=True')
-    local temp_project=$1
+    local temp_project="$1"
     shift 1
     gcloud-project $temp_project
     gcloud "$@"
