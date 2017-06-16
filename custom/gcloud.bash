@@ -6,7 +6,7 @@ _gcloud-list-config-complete () {
 
 gcloud-project () {
     if [ $# -eq 0 ]; then
-	gcloud config list --format='value(name)'
+	gcloud config configurations list --filter='IS_ACTIVE=True'
     else
 	gcloud config configurations activate "$1"
     fi
