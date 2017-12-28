@@ -1,7 +1,10 @@
 _gcloud-list-config-complete () {
     local cur=${COMP_WORDS[COMP_CWORD]}
-    local project_list=$(gcloud config configurations list --format='value(name)')
-    COMPREPLY=( $(compgen -W "${project_list}" -- ${cur}) )
+    local project_list=""
+    for i in ~/.config/gcloud/configurations/*; do
+	project_list="${project_list} ${i##*config_}"
+    done
+    COMPREPLY=( $(compgen -W "${project_list[@]}" -- ${cur}) )
 }
 
 gcloud-project () {
