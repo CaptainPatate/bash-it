@@ -24,4 +24,20 @@ gcloud-project-exec () {
     gcloud-project $current_project
 }
 
+gcloud-disk-from-snapshot () {
+    local -r project=$1
+    local -r pdname=$2
+    local -r snapname=$3
+    
+    gcloud --project "${project}" compute disks create "${pdname}" --source-snapshot "${snapname}"
+}
+
+gcloud-tmp-instance () {
+    gcloud --project lumsites compute instances create try-upgrade-es-debian --boot-disk-type=pd-ssd --boot-disk-size=20G --disk=name=es-1-vm-root-debian8-try-upgrade
+}
+
+gcloud-instance-root-pd () {
+    gcloud --project lumsites compute instances create try-upgrade-es-debian --disk=name=es-1-vm-root-debian8-try-upgrade,boot=yes
+}
+
 complete -F _gcloud-list-config-complete gcloud-project gcloud-project-exec
